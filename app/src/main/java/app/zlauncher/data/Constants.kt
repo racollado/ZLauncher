@@ -33,9 +33,13 @@ object Constants {
     /** Fallback packages tried in order when the user has not picked a weather app. */
     val WEATHER_APP_PACKAGES = arrayOf(
         "com.google.android.apps.weather",
+        "com.google.android.googlequicksearchbox",
         "com.samsung.android.weather",
         "com.miui.weather2",
         "com.oneplus.weather",
+        "com.accuweather.android",
+        "com.weather.Weather",
+        "com.wunderground.android.weather",
     )
 
     const val FLAG_LAUNCH_APP = 100

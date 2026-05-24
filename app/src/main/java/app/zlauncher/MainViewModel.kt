@@ -309,6 +309,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun setDefaultWeatherApp() {
+        if (prefs.weatherAppPackage.isNotBlank()) return
+        viewModelScope.launch {
+            try {
+                Constants.WEATHER_APP_PACKAGES.firstOrNull { appContext.isPackageInstalled(it) }?.let { packageName ->
+                    appContext.packageManager.getLaunchIntentForPackage(packageName)?.component?.className?.let {
+                        prefs.weatherAppPackage = packageName
+                        prefs.weatherAppClassName = it
+                        prefs.weatherAppUser = android.os.Process.myUserHandle().toString()
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun openAppDrawerForFlag(flag: Int) {
         showAppDrawerForFlag.value = flag
     }

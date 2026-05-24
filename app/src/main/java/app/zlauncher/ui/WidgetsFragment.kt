@@ -4,8 +4,6 @@ import android.Manifest
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.LauncherApps
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.os.Process
 import android.text.format.DateFormat
@@ -225,13 +223,7 @@ class WidgetsFragment : Fragment() {
         }
         Constants.WEATHER_APP_PACKAGES.firstOrNull { requireContext().isPackageInstalled(it) }
             ?.let { launchByPackage(it, null, "") }
-            ?: run {
-                try {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=weather")))
-                } catch (_: Exception) {
-                    requireContext().showToast(R.string.unable_to_open_app)
-                }
-            }
+            ?: requireContext().showToast(R.string.weather_set_app_hint)
     }
 
     private fun launchByPackage(packageName: String, className: String?, userString: String) {
@@ -240,19 +232,25 @@ class WidgetsFragment : Fragment() {
         val user = if (userString.isBlank()) Process.myUserHandle()
         else getUserHandleFromString(requireContext(), userString)
         val activities = launcherApps.getActivityList(packageName, user)
-        if (activities.isEmpty()) {
-            requireContext().showToast(R.string.unable_to_open_app)
-            return
-        }
         val component = if (!className.isNullOrBlank() && activities.any { it.componentName.className == className }) {
             ComponentName(packageName, className)
-        } else {
+        } else if (activities.isNotEmpty()) {
             activities.first().componentName
+        } else {
+            requireContext().packageManager.getLaunchIntentForPackage(packageName)?.component
+        }
+        if (component == null) {
+            requireContext().showToast(R.string.unable_to_open_app)
+            return
         }
         try {
             launcherApps.startMainActivity(component, user, null, null)
         } catch (_: Exception) {
-            requireContext().showToast(R.string.unable_to_open_app)
+            try {
+                requireContext().packageManager.getLaunchIntentForPackage(packageName)?.let { startActivity(it) }
+            } catch (_: Exception) {
+                requireContext().showToast(R.string.unable_to_open_app)
+            }
         }
     }
 

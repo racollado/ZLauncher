@@ -10,7 +10,10 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.content.pm.LauncherApps
 import android.os.Bundle
+import android.os.UserHandle
 import android.provider.Settings
 import android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
 import androidx.activity.OnBackPressedCallback
@@ -46,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private var isResumed = false
     private var profileReceiver: BroadcastReceiver? = null
     private var packageReceiver: BroadcastReceiver? = null
+    private var launcherAppsCallback: LauncherApps.Callback? = null
     private lateinit var backCallback: OnBackPressedCallback
 
     private val launcherSelectorLauncher = registerForActivityResult(
@@ -84,6 +88,8 @@ class MainActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 if (position != MainPagerAdapter.PAGE_DRAWER) {
                     resetDrawerPickMode()
+                } else {
+                    viewModel.getAppList()
                 }
             }
         })
@@ -107,11 +113,13 @@ class MainActivity : AppCompatActivity() {
             viewModel.firstOpen(true)
             prefs.firstOpen = false
             viewModel.setDefaultClockApp()
+            viewModel.setDefaultWeatherApp()
             viewModel.resetLauncherLiveData.call()
         }
 
         initObservers(viewModel)
         viewModel.getAppList()
+        registerLauncherAppsCallback()
         setupOrientation()
 
         window.addFlags(FLAG_LAYOUT_NO_LIMITS)
@@ -141,6 +149,7 @@ class MainActivity : AppCompatActivity() {
         isResumed = true
         viewModel.isPrivateSpaceToggling = false
         registerPackageReceiver()
+        viewModel.getAppList()
     }
 
     override fun onPause() {
@@ -312,9 +321,47 @@ class MainActivity : AppCompatActivity() {
             addAction(Intent.ACTION_PACKAGE_ADDED)
             addAction(Intent.ACTION_PACKAGE_REMOVED)
             addAction(Intent.ACTION_PACKAGE_CHANGED)
+            addAction(Intent.ACTION_PACKAGE_REPLACED)
             addDataScheme("package")
         }
         registerReceiver(packageReceiver, filter)
+    }
+
+    private fun registerLauncherAppsCallback() {
+        if (launcherAppsCallback != null) return
+        val launcherApps = getSystemService(LauncherApps::class.java)
+        launcherAppsCallback = object : LauncherApps.Callback() {
+            override fun onPackageAdded(packageName: String, user: UserHandle) {
+                viewModel.getAppList()
+            }
+
+            override fun onPackageRemoved(packageName: String, user: UserHandle) {
+                viewModel.getAppList()
+            }
+
+            override fun onPackageChanged(packageName: String, user: UserHandle) {
+                viewModel.getAppList()
+            }
+
+            override fun onPackagesAvailable(packageNames: Array<out String>, user: UserHandle, replacing: Boolean) {
+                viewModel.getAppList()
+            }
+
+            override fun onPackagesUnavailable(packageNames: Array<out String>, user: UserHandle, replacing: Boolean) {
+                viewModel.getAppList()
+            }
+        }
+        launcherApps.registerCallback(launcherAppsCallback!!, Handler(mainLooper))
+    }
+
+    private fun unregisterLauncherAppsCallback() {
+        launcherAppsCallback?.let { callback ->
+            try {
+                getSystemService(LauncherApps::class.java).unregisterCallback(callback)
+            } catch (_: Exception) {
+            }
+        }
+        launcherAppsCallback = null
     }
 
     private fun unregisterPackageReceiver() {
@@ -328,6 +375,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        unregisterLauncherAppsCallback()
         profileReceiver?.let {
             try {
                 unregisterReceiver(it)

@@ -127,15 +127,14 @@ class AlphabetScrubberView @JvmOverloads constructor(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 onScrubStarted?.invoke()
-                handleTouch(event.y, allowRepeat = false)
+                handleTouch(event.y)
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
-                handleTouch(event.y, allowRepeat = false)
+                handleTouch(event.y)
                 return true
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                handleTouch(event.y, allowRepeat = true)
                 onScrubEnded?.invoke()
                 return true
             }
@@ -143,12 +142,12 @@ class AlphabetScrubberView @JvmOverloads constructor(
         return false
     }
 
-    private fun handleTouch(y: Float, allowRepeat: Boolean) {
-        val (sectionHeight, resetHeight, lettersHeight) = sectionMetrics()
+    private fun handleTouch(y: Float) {
+        val (_, resetHeight, lettersHeight) = sectionMetrics()
         val clamped = y.coerceIn(paddingTop.toFloat(), (height - paddingBottom).toFloat())
 
         if (hasResetDot() && clamped < paddingTop + resetHeight) {
-            if (allowRepeat || filterActive) {
+            if (filterActive) {
                 onResetSelected?.invoke()
             }
             return
@@ -162,7 +161,7 @@ class AlphabetScrubberView @JvmOverloads constructor(
             .toInt()
             .coerceIn(0, letters.size - 1)
         val letter = letters[index]
-        if (letter != lastNotifiedLetter || allowRepeat) {
+        if (letter != lastNotifiedLetter) {
             lastNotifiedLetter = letter
             selectedIndex = index
             invalidate()

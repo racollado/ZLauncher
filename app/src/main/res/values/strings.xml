@@ -104,6 +104,7 @@
     <string name="weather_location_denied">Location permission denied</string>
     <string name="weather_app_set">Weather app set</string>
     <string name="weather_app_cleared">Weather app cleared</string>
+    <string name="weather_set_app_hint">Long press the weather widget to choose a weather app</string>
     <string name="weather_summary" formatted="false" translatable="false">%1$s  %2$d\u00B0  %3$s</string>
     <string name="weather_summary_no_location" formatted="false" translatable="false">%1$s  %2$d\u00B0</string>
     <string name="todo">To-do</string>

@@ -237,11 +237,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             slot.setPadding(slot.paddingLeft, verticalPad, slot.paddingRight, verticalPad)
         }
 
-        val verticalGravity = when {
-            prefs.homeBottomAlignment -> Gravity.BOTTOM
-            homeAppsNum > 8 -> Gravity.TOP
-            else -> Gravity.CENTER_VERTICAL
-        }
+        val verticalGravity = if (prefs.homeBottomAlignment) Gravity.BOTTOM else Gravity.CENTER_VERTICAL
         binding.homeAppsLayout.gravity = prefs.homeAlignment or verticalGravity
     }
 

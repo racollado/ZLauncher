@@ -360,14 +360,12 @@ class AppDrawerFragment : Fragment() {
             linearLayoutManager.scrollToPositionWithOffset(0, 0)
         }
         binding.scrubber.onLetterSelected = { letter ->
-            val newFilter = if (adapter.firstLetterFilter == letter) null else letter
-            adapter.firstLetterFilter = newFilter
+            adapter.firstLetterFilter = letter
             adapter.filter.filter(binding.search.query)
-            binding.scrubber.setActiveLetter(newFilter)
-            binding.scrubberPreview.text = when (newFilter) {
-                null -> ""
+            binding.scrubber.setActiveLetter(letter)
+            binding.scrubberPreview.text = when (letter) {
                 '#' -> "\u00B7"
-                else -> newFilter.toString()
+                else -> letter.toString()
             }
             linearLayoutManager.scrollToPositionWithOffset(0, 0)
         }

@@ -65,9 +65,12 @@ suspend fun getAppsList(
 
         for (profile in userManager.userProfiles) {
             if (isPrivateSpaceProfile(context, profile)) continue
+            val seenPackages = mutableSetOf<String>()
             for (app in launcherApps.getActivityList(null, profile)) {
                 val packageName = app.applicationInfo.packageName
                 if (packageName == BuildConfig.APPLICATION_ID) continue
+                val packageKey = "$packageName|${profile.hashCode()}"
+                if (!seenPackages.add(packageKey)) continue
 
                 val labelShown = prefs.getAppRenameLabel(packageName)
                     .ifBlank { app.label.toString() }
