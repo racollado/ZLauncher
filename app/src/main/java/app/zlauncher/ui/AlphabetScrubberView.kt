@@ -22,6 +22,7 @@ class AlphabetScrubberView @JvmOverloads constructor(
 
     private var letters: List<Char> = emptyList()
     private var selectedIndex: Int = -1
+    private var lastNotifiedLetter: Char? = null
 
     var onLetterSelected: ((Char) -> Unit)? = null
     var onScrubStarted: (() -> Unit)? = null
@@ -54,9 +55,16 @@ class AlphabetScrubberView @JvmOverloads constructor(
 
     fun setLetters(letters: List<Char>) {
         this.letters = letters
-        selectedIndex = -1
+        selectedIndex = letters.indexOf(lastNotifiedLetter)
         applyThemeColors()
         requestLayout()
+        invalidate()
+    }
+
+    /** Sync the highlight with an externally-applied filter (or clear it with `null`). */
+    fun setActiveLetter(letter: Char?) {
+        lastNotifiedLetter = letter
+        selectedIndex = letter?.let { letters.indexOf(it) } ?: -1
         invalidate()
     }
 
@@ -98,8 +106,7 @@ class AlphabetScrubberView @JvmOverloads constructor(
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 onScrubEnded?.invoke()
-                selectedIndex = -1
-                invalidate()
+                // Keep selectedIndex so the active letter stays highlighted.
                 return true
             }
         }
@@ -110,10 +117,12 @@ class AlphabetScrubberView @JvmOverloads constructor(
         val clamped = y.coerceIn(paddingTop.toFloat(), (height - paddingBottom).toFloat())
         val sectionHeight = (height - paddingTop - paddingBottom).toFloat() / letters.size
         val index = ((clamped - paddingTop) / sectionHeight).toInt().coerceIn(0, letters.size - 1)
-        if (index != selectedIndex) {
+        val letter = letters[index]
+        if (letter != lastNotifiedLetter) {
+            lastNotifiedLetter = letter
             selectedIndex = index
             invalidate()
-            onLetterSelected?.invoke(letters[index])
+            onLetterSelected?.invoke(letter)
         }
     }
 }

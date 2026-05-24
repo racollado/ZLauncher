@@ -25,6 +25,19 @@ import app.zlauncher.helper.isSystemApp
 import app.zlauncher.helper.showKeyboard
 import java.text.Normalizer
 
+/**
+ * Bucket the leading character of an app label: digit -> '#', letter -> uppercase letter,
+ * anything else -> null (excluded from both the scrubber strip and any filter).
+ */
+fun firstCharCategory(label: String): Char? {
+    val first = label.trim().firstOrNull() ?: return null
+    return when {
+        first.isDigit() -> '#'
+        first.isLetter() -> first.uppercaseChar()
+        else -> null
+    }
+}
+
 class AppDrawerAdapter(
     private var flag: Int,
     private val appLabelGravity: Int,
@@ -63,6 +76,9 @@ class AppDrawerAdapter(
     private var isBangSearch = false
     private val appFilter = createAppFilter()
     private val myUserHandle = android.os.Process.myUserHandle()
+
+    /** When non-null, restrict the visible list to apps whose first-char category matches. */
+    var firstLetterFilter: Char? = null
 
     var appsList: MutableList<AppModel> = mutableListOf()
     var appFilteredList: MutableList<AppModel> = mutableListOf()
@@ -130,12 +146,23 @@ class AppDrawerAdapter(
         return object : Filter() {
             override fun performFiltering(charSearch: CharSequence?): FilterResults {
                 isBangSearch = charSearch?.startsWith("!") ?: false
-                autoLaunch = charSearch?.startsWith(" ")?.not() ?: true
+                autoLaunch = (charSearch?.startsWith(" ")?.not() ?: true) && firstLetterFilter == null
 
-                val appFilteredList = (if (charSearch.isNullOrBlank()) appsList
-                else appsList.filter { app ->
-                    app !is AppModel.PrivateSpaceHeader && appLabelMatches(app.appLabel, charSearch)
-                } as MutableList<AppModel>)
+                val letterFilter = firstLetterFilter
+                val base: List<AppModel> = if (letterFilter != null) {
+                    appsList.filter {
+                        it !is AppModel.PrivateSpaceHeader &&
+                                firstCharCategory(it.appLabel) == letterFilter
+                    }
+                } else appsList
+
+                val appFilteredList: MutableList<AppModel> = if (charSearch.isNullOrBlank()) {
+                    base.toMutableList()
+                } else {
+                    base.filter { app ->
+                        app !is AppModel.PrivateSpaceHeader && appLabelMatches(app.appLabel, charSearch)
+                    }.toMutableList()
+                }
 
                 val filterResults = FilterResults()
                 filterResults.values = appFilteredList
