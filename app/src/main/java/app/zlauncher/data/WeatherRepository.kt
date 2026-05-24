@@ -52,9 +52,28 @@ class WeatherRepository(private val appContext: Context) {
      * Returns cached forecast if it is fresh and the device hasn't moved far; otherwise
      * fetches a fresh forecast from Open-Meteo and updates the cache.
      */
-    suspend fun getForecast(latitude: Double, longitude: Double): WeatherForecast? {
-        cachedForecast(latitude, longitude)?.let { return it }
+    suspend fun getForecast(
+        latitude: Double,
+        longitude: Double,
+        forceRefresh: Boolean = false,
+    ): WeatherForecast? {
+        if (!forceRefresh) {
+            cachedForecast(latitude, longitude)?.let { return it }
+        }
         return fetchForecast(latitude, longitude)?.also { cacheForecast(it, latitude, longitude) }
+    }
+
+    fun isCacheStale(): Boolean {
+        val cacheTime = prefs.weatherCacheTimestamp
+        if (cacheTime <= 0L) return true
+        return System.currentTimeMillis() - cacheTime > Constants.WEATHER_CACHE_TTL_MS
+    }
+
+    fun clearCache() {
+        prefs.weatherCacheJson = ""
+        prefs.weatherCacheTimestamp = 0L
+        prefs.weatherCacheLat = Float.NaN
+        prefs.weatherCacheLon = Float.NaN
     }
 
     private fun cachedForecast(latitude: Double, longitude: Double): WeatherForecast? {

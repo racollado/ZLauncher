@@ -118,4 +118,5 @@
     <string name="cd_bottom_left_app">Bottom left app</string>
     <string name="cd_bottom_right_app">Bottom right app</string>
     <string name="cd_scrubber_reset">Show all apps</string>
+    <string name="cd_weather_refresh">Refresh weather</string>
 </resources>

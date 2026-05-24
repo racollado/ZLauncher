@@ -43,12 +43,25 @@ class WidgetsViewModel(application: Application) : AndroidViewModel(application)
             weatherState.value = WeatherState.LocationDisabled
             return
         }
-        if (weatherState.value is WeatherState.Loaded) return
+        if (weatherState.value is WeatherState.Loaded && !repository.isCacheStale()) return
         loadWeather()
     }
 
+    fun forceRefreshWeather() {
+        if (!hasLocationPermission()) {
+            weatherState.value = WeatherState.NeedsPermission
+            return
+        }
+        if (!repository.isLocationEnabled()) {
+            weatherState.value = WeatherState.LocationDisabled
+            return
+        }
+        repository.clearCache()
+        loadWeather(forceRefresh = true)
+    }
+
     @SuppressLint("MissingPermission")
-    fun loadWeather() {
+    fun loadWeather(forceRefresh: Boolean = false) {
         if (!hasLocationPermission()) {
             weatherState.value = WeatherState.NeedsPermission
             return
@@ -60,7 +73,11 @@ class WidgetsViewModel(application: Application) : AndroidViewModel(application)
                 weatherState.value = WeatherState.LocationDisabled
                 return@launch
             }
-            val forecast = repository.getForecast(location.latitude, location.longitude)
+            val forecast = repository.getForecast(
+                location.latitude,
+                location.longitude,
+                forceRefresh = forceRefresh,
+            )
             if (forecast == null) {
                 weatherState.value = WeatherState.Error
                 return@launch

@@ -98,6 +98,9 @@ class WidgetsFragment : Fragment() {
             mainViewModel.openAppDrawerForFlag(Constants.FLAG_SET_WEATHER_APP)
             true
         }
+        binding.weatherRefresh.setOnClickListener {
+            widgetsViewModel.forceRefreshWeather()
+        }
     }
 
     private fun bindTodo() {
@@ -116,12 +119,15 @@ class WidgetsFragment : Fragment() {
     private fun renderWeather(state: WidgetsViewModel.WeatherState) {
         when (state) {
             is WidgetsViewModel.WeatherState.Loading -> {
+                binding.weatherRefresh.isVisible = hasWeatherRefreshAccess()
+                binding.weatherRefresh.isEnabled = false
                 binding.weatherStatus.text = getString(R.string.weather_loading)
                 binding.weatherCondition.text = ""
                 binding.weatherAction.isVisible = false
                 binding.hourlyRow.removeAllViews()
             }
             is WidgetsViewModel.WeatherState.NeedsPermission -> {
+                binding.weatherRefresh.isVisible = false
                 binding.weatherStatus.text = getString(R.string.weather)
                 binding.weatherCondition.text = ""
                 binding.weatherAction.isVisible = true
@@ -129,18 +135,24 @@ class WidgetsFragment : Fragment() {
                 binding.hourlyRow.removeAllViews()
             }
             is WidgetsViewModel.WeatherState.LocationDisabled -> {
+                binding.weatherRefresh.isVisible = hasWeatherRefreshAccess()
+                binding.weatherRefresh.isEnabled = true
                 binding.weatherStatus.text = getString(R.string.weather_unavailable)
                 binding.weatherCondition.text = ""
                 binding.weatherAction.isVisible = false
                 binding.hourlyRow.removeAllViews()
             }
             is WidgetsViewModel.WeatherState.Error -> {
+                binding.weatherRefresh.isVisible = hasWeatherRefreshAccess()
+                binding.weatherRefresh.isEnabled = true
                 binding.weatherStatus.text = getString(R.string.weather_unavailable)
                 binding.weatherCondition.text = ""
                 binding.weatherAction.isVisible = false
                 binding.hourlyRow.removeAllViews()
             }
             is WidgetsViewModel.WeatherState.Loaded -> {
+                binding.weatherRefresh.isVisible = true
+                binding.weatherRefresh.isEnabled = true
                 val temp = state.forecast.currentTempC.cToF().roundToInt()
                 val glyph = WeatherCode.glyph(state.forecast.currentCode)
                 val location = state.locationLabel ?: ""
@@ -155,6 +167,8 @@ class WidgetsFragment : Fragment() {
             }
         }
     }
+
+    private fun hasWeatherRefreshAccess(): Boolean = widgetsViewModel.hasLocationPermission()
 
     private fun renderHourly(hourly: List<HourlyWeather>) {
         binding.hourlyRow.removeAllViews()
