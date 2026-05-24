@@ -130,7 +130,7 @@
         android:contentDescription="@string/cd_bottom_left_app"
         android:padding="12dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_camera" />
+        android:src="@drawable/ic_phone" />
 
     <ImageButton
         android:id="@+id/cornerRightButton"
@@ -143,5 +143,5 @@
         android:contentDescription="@string/cd_bottom_right_app"
         android:padding="12dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_phone" />
+        android:src="@drawable/ic_camera" />
 </FrameLayout>

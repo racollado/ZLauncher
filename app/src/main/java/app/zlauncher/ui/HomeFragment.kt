@@ -372,7 +372,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             shortcutId = prefs.shortcutIdSwipeLeft,
             isShortcut = prefs.isShortcutSwipeLeft,
             userString = prefs.appUserSwipeLeft,
-            fallback = { openCameraApp(requireContext()) },
+            fallback = { openDialerApp(requireContext()) },
         )
     }
 
@@ -384,18 +384,18 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             shortcutId = prefs.shortcutIdSwipeRight,
             isShortcut = prefs.isShortcutSwipeRight,
             userString = prefs.appUserSwipeRight,
-            fallback = { openDialerApp(requireContext()) },
+            fallback = { openCameraApp(requireContext()) },
         )
     }
 
     private fun renderCornerIcons() {
         binding.cornerLeftButton.setImageDrawable(
             iconForPackage(prefs.appPackageSwipeLeft, prefs.appUserSwipeLeft)
-                ?: requireContext().getDrawable(R.drawable.ic_camera)
+                ?: requireContext().getDrawable(R.drawable.ic_phone)
         )
         binding.cornerRightButton.setImageDrawable(
             iconForPackage(prefs.appPackageSwipeRight, prefs.appUserSwipeRight)
-                ?: requireContext().getDrawable(R.drawable.ic_phone)
+                ?: requireContext().getDrawable(R.drawable.ic_camera)
         )
         binding.cornerLeftButton.scaleType = if (prefs.appPackageSwipeLeft.isNotBlank())
             ImageView.ScaleType.FIT_CENTER else ImageView.ScaleType.CENTER_INSIDE
