@@ -14,13 +14,13 @@ android {
     }
 
     defaultConfig {
-        applicationId "app.olauncher"
+        applicationId "app.zlauncher"
         minSdkVersion 24
         targetSdkVersion 35
-        versionCode 105
-        versionName "v6.4.2"
+        versionCode 1
+        versionName "0.1.0"
 
-        resourceConfigurations += ["en", "ar", "de", "es-rES", "es-rUS", "fr", "he", "hr", "hu", "in", "it", "ja", "nl", "pl", "pt-rBR", "ru-rRU", "sv", "tr", "uk", "zh"]
+        resourceConfigurations += ["en"]
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -41,7 +41,7 @@ android {
         viewBinding = true
         buildConfig = true
     }
-    namespace 'app.olauncher'
+    namespace 'app.zlauncher'
 }
 
 dependencies {
@@ -52,16 +52,17 @@ dependencies {
     implementation libs.recyclerview
 
     // Android lifecycle
-    implementation libs.lifecycle.extensions
     implementation libs.lifecycle.viewmodel.ktx
 
-    // Navigation
-    implementation libs.navigation.fragment.ktx
+    // Multi-page navigation between Widgets / Home / Drawer
+    implementation libs.viewpager2
 
-    // Work Manager
-    implementation libs.work.runtime.ktx
+    // Location for the weather widget
+    implementation libs.play.services.location
 
-    //Material dependency
+    // Activity ViewModels via by activityViewModels()
+    implementation libs.fragment.ktx
+
+    // Material dependency
     implementation libs.material
-
 }

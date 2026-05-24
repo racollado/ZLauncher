@@ -5,24 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:orientation="vertical"
     tools:context=".ui.HomeFragment">
 
-    <!-- Placeholder layout for locking screen-->
+    <!-- Placeholder views consumed by the accessibility service to lock / show recents -->
     <FrameLayout
         android:id="@+id/lock"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:contentDescription="@string/lock_layout_description" />
 
-    <!-- Placeholder layout for showing recent apps-->
     <FrameLayout
         android:id="@+id/recents"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:contentDescription="@string/recents_layout_description" />
 
-    <!-- Clock and calendar-->
+    <!-- Clock and calendar -->
     <LinearLayout
         android:id="@+id/dateTimeLayout"
         android:layout_width="match_parent"
@@ -48,30 +46,12 @@
             style="@style/TextDefault"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:format12Hour="EEE, dd MMM"
-            android:format24Hour="EEE, dd MMM"
             android:paddingHorizontal="3dp"
             android:textSize="@dimen/date_size"
             tools:text="Thu, 30 Dec" />
     </LinearLayout>
 
-    <!-- Screen time-->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvScreenTime"
-        style="@style/TextSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="72dp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:textSize="@dimen/date_size"
-        android:visibility="gone"
-        tools:text="2h 11m"
-        tools:visibility="visible" />
-
-    <!-- Home apps-->
+    <!-- Home apps -->
     <LinearLayout
         android:id="@+id/homeAppsLayout"
         android:layout_width="match_parent"
@@ -80,7 +60,7 @@
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
         android:paddingTop="112dp"
-        android:paddingBottom="48dp">
+        android:paddingBottom="120dp">
 
         <TextView
             android:id="@+id/homeApp1"
@@ -177,15 +157,14 @@
         style="@style/TextSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="56dp"
-        android:text="@string/swipe_up_for_apps"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="80dp"
+        android:gravity="center"
+        android:text="@string/swipe_for_widgets_apps_settings"
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <!-- Set default launcher -->
     <TextView
         android:id="@+id/setDefaultLauncher"
         style="@style/TextMedium"
@@ -193,9 +172,35 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="120dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@string/set_as_default_launcher_u"
         android:visibility="gone" />
+
+    <ImageButton
+        android:id="@+id/cornerLeftButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="32dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/cd_bottom_left_app"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_camera" />
+
+    <ImageButton
+        android:id="@+id/cornerRightButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="32dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/cd_bottom_right_app"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_phone" />
 </FrameLayout>

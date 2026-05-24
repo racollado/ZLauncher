@@ -1,34 +1,17 @@
-![Olauncher](https://repository-images.githubusercontent.com/278638069/db0acb80-661b-11eb-803e-926cae5dccb4)
+# ZLauncher
 
+A minimalist, text-based Android launcher organised into three swipeable pages:
 
-# Olauncher | Minimal AF Launcher
-AF stands for Ad-Free
+- **Home** — clock, date, battery, customisable favourite apps, and two tap-to-launch app shortcuts in the bottom corners.
+- **Widgets** (swipe right from Home) — current weather plus an 8-hour forecast (via [Open-Meteo](https://open-meteo.com)) and a tiny tap-to-remove to-do list.
+- **App drawer** (swipe left from Home) — full app list with an on-demand search button and a right-edge alphabet scrubber for fast first-letter jumps.
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-    alt="Get it on F-Droid"
-    height="80">](https://f-droid.org/packages/app.olauncher)
-[<img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-    alt="Get it on Play Store"
-    height="80">](https://play.google.com/store/apps/details?id=app.olauncher)
+Long-press on the home background to open Settings. Double-tap the home background to lock the screen.
 
-### Install using [F-Droid](https://f-droid.org/packages/app.olauncher), [Play Store](https://play.google.com/store/apps/details?id=app.olauncher) or the [latest APK](https://github.com/tanujnotes/Olauncher/releases/).
+## Origins
 
-- To maintain the simplicity of the launcher, a few niche features are available but hidden.
+ZLauncher is a fork of [OLauncher](https://github.com/tanujnotes/Olauncher) by Tanuj Bansal, distributed under the GNU GPLv3. All original launcher behaviour for the home screen, app drawer, hidden apps, themes, and accessibility-based lock came from OLauncher and is preserved here under the same licence.
 
-- Please check out the **[About](https://tanujnotes.substack.com/p/olauncher-minimal-af-launcher?utm_source=github)** page in the Olauncher settings for a complete list of features and **FAQs**.
+## License
 
-##
-
-License: [GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html)
-
-Dev: [X/twitter](https://x.com/tanujnotes) • [Bluesky](https://bsky.app/profile/tanujnotes.bsky.social)
-
-##
-
-### My other apps:
-
-- [Pro Launcher](https://play.google.com/store/apps/details?id=app.prolauncher) - Pro version of Olauncher with extra features like widgets, weather, folders, etc.
-
-- [Note to Self](https://play.google.com/store/apps/details?id=com.makenotetoself) - Free and [open source](https://github.com/jeerovan/ntsapp) notes app with chat like interface and end-to-end encryption.
-
-- [Pentastic](https://play.google.com/store/apps/details?id=app.pentastic) - Minimal todo lists. Free and [open source](https://github.com/tanujnotes/Pentastic).
+[GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html). See `LICENSE`.

@@ -27,13 +27,13 @@
             android:clipChildren="false"
             android:clipToPadding="false"
             android:orientation="vertical"
-            android:paddingVertical="64dp">
+            android:paddingVertical="56dp">
 
+            <!-- Header card -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginEnd="12dp"
+                android:layout_marginHorizontal="12dp"
                 android:background="@drawable/rounded_rect_shade_color"
                 android:orientation="vertical"
                 android:padding="12dp">
@@ -45,7 +45,7 @@
                     android:layout_marginBottom="4dp">
 
                     <TextView
-                        android:id="@+id/olauncherHiddenApps"
+                        android:id="@+id/zlauncherHiddenApps"
                         style="@style/TextLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -70,31 +70,9 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="8dp"
                     android:text="@string/set_as_default_launcher" />
-
-                <TextView
-                    android:id="@+id/aboutOlauncher"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:drawablePadding="8dp"
-                    android:gravity="center"
-                    android:text="@string/about_olauncher" />
-
-                <TextView
-                    android:id="@+id/moreFeatures"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/more_features" />
-
             </LinearLayout>
 
+            <!-- Home screen card -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,7 +124,6 @@
                         android:paddingEnd="8dp"
                         tools:text="@string/_8" />
 
-                    <!-- Home apps numbers layout-->
                     <LinearLayout
                         android:id="@+id/appsNumSelectLayout"
                         android:layout_width="match_parent"
@@ -155,103 +132,37 @@
                         android:background="@drawable/rounded_primary_gradient"
                         android:elevation="8dp"
                         android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:visibility="gone"
                         tools:ignore="UnusedAttribute">
 
-                        <TextView
-                            android:id="@+id/maxApps0"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_0" />
-
-                        <TextView
-                            android:id="@+id/maxApps1"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_1" />
-
-                        <TextView
-                            android:id="@+id/maxApps2"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_2" />
-
-                        <TextView
-                            android:id="@+id/maxApps3"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_3" />
-
-                        <TextView
-                            android:id="@+id/maxApps4"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_4" />
-
-                        <TextView
-                            android:id="@+id/maxApps5"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_5" />
-
-                        <TextView
-                            android:id="@+id/maxApps6"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_6" />
-
-                        <TextView
-                            android:id="@+id/maxApps7"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_7" />
-
-                        <TextView
-                            android:id="@+id/maxApps8"
-                            style="@style/TextSmall"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="@string/_8" />
-
+                        <TextView android:id="@+id/maxApps0" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_0" />
+                        <TextView android:id="@+id/maxApps1" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_1" />
+                        <TextView android:id="@+id/maxApps2" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_2" />
+                        <TextView android:id="@+id/maxApps3" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_3" />
+                        <TextView android:id="@+id/maxApps4" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_4" />
+                        <TextView android:id="@+id/maxApps5" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_5" />
+                        <TextView android:id="@+id/maxApps6" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_6" />
+                        <TextView android:id="@+id/maxApps7" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_7" />
+                        <TextView android:id="@+id/maxApps8" style="@style/TextSmall"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="@string/_8" />
                     </LinearLayout>
-
                 </FrameLayout>
 
                 <FrameLayout
@@ -279,7 +190,6 @@
                         android:padding="8dp"
                         android:text="@string/on" />
 
-                    <!-- date time layout-->
                     <LinearLayout
                         android:id="@+id/dateTimeSelectLayout"
                         android:layout_width="match_parent"
@@ -288,50 +198,24 @@
                         android:background="@drawable/rounded_primary_gradient"
                         android:elevation="8dp"
                         android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="2dp"
                         android:visibility="gone"
                         tools:ignore="UnusedAttribute">
 
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/dateTimeOn"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/on" />
-
-                        <TextView
-                            android:id="@+id/dateTimeOff"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/off" />
-
-                        <TextView
-                            android:id="@+id/dateOnly"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/date_only" />
-
+                        <Space android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                        <TextView android:id="@+id/dateTimeOn" style="@style/TextSmallBold"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginEnd="24dp" android:gravity="center"
+                            android:paddingVertical="6dp" android:text="@string/on" />
+                        <TextView android:id="@+id/dateTimeOff" style="@style/TextSmallBold"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp" android:layout_marginEnd="24dp"
+                            android:gravity="center" android:paddingVertical="6dp" android:text="@string/off" />
+                        <TextView android:id="@+id/dateOnly" style="@style/TextSmallBold"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:gravity="center" android:paddingVertical="6dp" android:text="@string/date_only" />
                     </LinearLayout>
-
                 </FrameLayout>
 
                 <FrameLayout
@@ -361,7 +245,6 @@
                         android:padding="8dp"
                         android:text="@string/left" />
 
-                    <!-- alignment layout-->
                     <HorizontalScrollView
                         android:id="@+id/alignmentSelectLayout"
                         android:layout_width="match_parent"
@@ -370,8 +253,6 @@
                         android:background="@drawable/rounded_primary_gradient"
                         android:elevation="8dp"
                         android:fadingEdgeLength="8dp"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:paddingHorizontal="10dp"
                         android:paddingVertical="2dp"
                         android:requiresFadingEdge="horizontal"
@@ -384,95 +265,32 @@
                             android:layout_gravity="end"
                             android:orientation="horizontal">
 
-                            <Space
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1" />
-
-                            <TextView
-                                android:id="@+id/alignmentBottom"
-                                style="@style/TextSmallBold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="16dp"
-                                android:paddingVertical="6dp"
+                            <Space android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                            <TextView android:id="@+id/alignmentBottom" style="@style/TextSmallBold"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp" android:paddingVertical="6dp"
                                 android:text="@string/bottom_off" />
-
-                            <View
-                                android:layout_width="0.5dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginVertical="4dp"
-                                android:layout_marginEnd="16dp"
+                            <View android:layout_width="0.5dp" android:layout_height="match_parent"
+                                android:layout_marginVertical="4dp" android:layout_marginEnd="16dp"
                                 android:background="?attr/primaryColorTrans50" />
-
-                            <TextView
-                                android:id="@+id/alignmentLeft"
-                                style="@style/TextSmallBold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="16dp"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:text="@string/left" />
-
-                            <TextView
-                                android:id="@+id/alignmentCenter"
-                                style="@style/TextSmallBold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:layout_marginEnd="16dp"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:text="@string/center" />
-
-                            <TextView
-                                android:id="@+id/alignmentRight"
-                                style="@style/TextSmallBold"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:paddingVertical="6dp"
-                                android:text="@string/right" />
-
+                            <TextView android:id="@+id/alignmentLeft" style="@style/TextSmallBold"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:layout_marginEnd="16dp" android:gravity="center"
+                                android:paddingVertical="6dp" android:text="@string/left" />
+                            <TextView android:id="@+id/alignmentCenter" style="@style/TextSmallBold"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp" android:layout_marginEnd="16dp"
+                                android:gravity="center" android:paddingVertical="6dp" android:text="@string/center" />
+                            <TextView android:id="@+id/alignmentRight" style="@style/TextSmallBold"
+                                android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:gravity="center" android:paddingVertical="6dp" android:text="@string/right" />
                         </LinearLayout>
                     </HorizontalScrollView>
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/screenTimeLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="4dp"
-                    android:animateLayoutChanges="true"
-                    android:clipChildren="false"
-                    android:clipToPadding="false">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/screen_time"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/screenTimeOnOff"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-
                 </FrameLayout>
 
             </LinearLayout>
 
+            <!-- Appearance card -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -482,8 +300,7 @@
                 android:clipChildren="false"
                 android:clipToPadding="false"
                 android:orientation="vertical"
-                android:padding="12dp"
-                tools:visibility="visible">
+                android:padding="12dp">
 
                 <TextView
                     style="@style/TextLarge"
@@ -499,59 +316,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
-
-                    <TextView
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="80dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/auto_show_keyboard"
-                        android:textColor="?attr/primaryColor" />
-
-                    <TextView
-                        android:id="@+id/autoShowKeyboard"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/on" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true">
-
-                    <TextView
-                        android:id="@+id/dailyWallpaperUrl"
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:paddingVertical="8dp"
-                        android:text="@string/daily_wallpaper_update" />
-
-                    <TextView
-                        android:id="@+id/dailyWallpaper"
-                        style="@style/TextSmallBold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end|bottom"
-                        android:layout_marginEnd="4dp"
-                        android:padding="8dp"
-                        android:text="@string/off" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:animateLayoutChanges="true">
 
                     <TextView
@@ -599,7 +363,6 @@
                         android:padding="8dp"
                         android:text="@string/dark" />
 
-                    <!-- theme color select layout-->
                     <LinearLayout
                         android:id="@+id/appThemeSelectLayout"
                         android:layout_width="match_parent"
@@ -608,50 +371,25 @@
                         android:background="@drawable/rounded_primary_gradient"
                         android:elevation="8dp"
                         android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="2dp"
                         android:visibility="gone"
                         tools:ignore="UnusedAttribute">
 
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/themeSystem"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/system_default"
+                        <Space android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                        <TextView android:id="@+id/themeSystem" style="@style/TextSmallBold"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginEnd="24dp" android:gravity="center"
+                            android:paddingVertical="6dp" android:text="@string/system_default"
                             android:visibility="gone" />
-
-                        <TextView
-                            android:id="@+id/themeLight"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/light" />
-
-                        <TextView
-                            android:id="@+id/themeDark"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/dark" />
-
+                        <TextView android:id="@+id/themeLight" style="@style/TextSmallBold"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginEnd="24dp" android:gravity="center"
+                            android:paddingVertical="6dp" android:text="@string/light" />
+                        <TextView android:id="@+id/themeDark" style="@style/TextSmallBold"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:gravity="center" android:paddingVertical="6dp" android:text="@string/dark" />
                     </LinearLayout>
-
                 </FrameLayout>
 
                 <FrameLayout
@@ -684,7 +422,6 @@
                         android:paddingEnd="8dp"
                         tools:text="1.0" />
 
-                    <!-- Text size +/- controls -->
                     <LinearLayout
                         android:id="@+id/textSizesLayout"
                         android:layout_width="match_parent"
@@ -694,48 +431,24 @@
                         android:elevation="8dp"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:visibility="gone"
-                        tools:ignore="UnusedAttribute"
-                        tools:visibility="gone">
+                        tools:ignore="UnusedAttribute">
 
-                        <TextView
-                            android:id="@+id/textSizeMinus"
-                            style="@style/TextSmallBold"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="\u2212" />
-
-                        <TextView
-                            android:id="@+id/textSizeCurrent"
-                            style="@style/TextSmallBold"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            tools:text="1.0" />
-
-                        <TextView
-                            android:id="@+id/textSizePlus"
-                            style="@style/TextSmallBold"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:paddingVertical="8dp"
-                            android:text="+" />
-
+                        <TextView android:id="@+id/textSizeMinus" style="@style/TextSmallBold"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="\u2212" />
+                        <TextView android:id="@+id/textSizeCurrent" style="@style/TextSmallBold"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" tools:text="1.0" />
+                        <TextView android:id="@+id/textSizePlus" style="@style/TextSmallBold"
+                            android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                            android:gravity="center" android:paddingVertical="8dp" android:text="+" />
                     </LinearLayout>
-
                 </FrameLayout>
 
             </LinearLayout>
 
+            <!-- Gestures card -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -747,7 +460,6 @@
                 android:padding="12dp">
 
                 <TextView
-                    android:id="@+id/tvGestures"
                     style="@style/TextLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -772,11 +484,11 @@
                         android:layout_weight="1"
                         android:lines="1"
                         android:paddingVertical="8dp"
-                        android:text="@string/swipe_left_app"
+                        android:text="@string/bottom_corner_left_app"
                         android:textColor="?attr/primaryColor" />
 
                     <TextView
-                        android:id="@+id/swipeLeftApp"
+                        android:id="@+id/cornerLeftApp"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -801,11 +513,11 @@
                         android:layout_weight="1"
                         android:lines="1"
                         android:paddingVertical="8dp"
-                        android:text="@string/swipe_right_app"
+                        android:text="@string/bottom_corner_right_app"
                         android:textColor="?attr/primaryColor" />
 
                     <TextView
-                        android:id="@+id/swipeRightApp"
+                        android:id="@+id/cornerRightApp"
                         style="@style/TextSmallBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -816,20 +528,16 @@
                 </LinearLayout>
 
                 <FrameLayout
-                    android:id="@+id/flSwipeDown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:animateLayoutChanges="true"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:animateLayoutChanges="true">
 
                     <TextView
                         style="@style/TextSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="24dp"
                         android:lines="1"
                         android:paddingVertical="8dp"
                         android:text="@string/swipe_down_for"
@@ -846,7 +554,6 @@
                         android:padding="8dp"
                         tools:text="@string/search" />
 
-                    <!-- Swipe down select layout-->
                     <LinearLayout
                         android:id="@+id/swipeDownSelectLayout"
                         android:layout_width="match_parent"
@@ -855,47 +562,27 @@
                         android:background="@drawable/rounded_primary_gradient"
                         android:elevation="8dp"
                         android:orientation="horizontal"
-                        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-                        android:outlineSpotShadowColor="@color/colorPrimaryDark"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="2dp"
                         android:visibility="gone"
                         tools:ignore="UnusedAttribute">
 
-                        <Space
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/notifications"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="24dp"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/notifications" />
-
-                        <TextView
-                            android:id="@+id/search"
-                            style="@style/TextSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:paddingVertical="6dp"
-                            android:text="@string/search" />
-
+                        <Space android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" />
+                        <TextView android:id="@+id/notifications" style="@style/TextSmallBold"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_marginEnd="24dp" android:gravity="center"
+                            android:paddingVertical="6dp" android:text="@string/notifications" />
+                        <TextView android:id="@+id/swipeDownSearch" style="@style/TextSmallBold"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:gravity="center" android:paddingVertical="6dp" android:text="@string/search" />
                     </LinearLayout>
-
                 </FrameLayout>
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:visibility="visible">
+                    android:layout_marginTop="12dp">
 
                     <TextView
                         style="@style/TextSmall"
@@ -919,8 +606,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="12dp"
-                    android:visibility="visible">
+                    android:layout_marginTop="12dp">
 
                     <TextView
                         style="@style/TextSmall"
@@ -942,50 +628,19 @@
                 </FrameLayout>
             </LinearLayout>
 
+            <!-- Footer link bar -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/twitter"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/twitter" />
-
-                <TextView
-                    android:id="@+id/share"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/share" />
-
-                <TextView
-                    android:id="@+id/rate"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:padding="10dp"
-                    android:text="@string/rate" />
 
                 <TextView
                     android:id="@+id/github"
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:padding="10dp"
                     android:text="@string/github" />
 
@@ -994,24 +649,10 @@
                     style="@style/TextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
                     android:padding="10dp"
                     android:text="@string/privacy" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/footer"
-                style="@style/TextSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:letterSpacing="0.03"
-                android:padding="12dp"
-                android:text="@string/new_app_note_safe" />
-
         </LinearLayout>
-
     </ScrollView>
 
     <FrameLayout
@@ -1023,8 +664,7 @@
         android:clipToPadding="false"
         android:focusable="true"
         android:padding="20dp"
-        android:visibility="gone"
-        tools:visibility="gone">
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -1033,10 +673,7 @@
             android:background="@drawable/rounded_rectangle_dark"
             android:elevation="8dp"
             android:orientation="vertical"
-            android:outlineAmbientShadowColor="@color/colorPrimaryDark"
-            android:outlineSpotShadowColor="@color/colorPrimaryDark"
-            android:padding="20dp"
-            tools:targetApi="p">
+            android:padding="20dp">
 
             <TextView
                 style="@style/TextLarge"
@@ -1059,16 +696,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/notWorking"
-                    style="@style/TextSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingVertical="4dp"
-                    android:text="@string/not_working"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
 
                 <Space
                     android:layout_width="0dp"
@@ -1094,9 +721,6 @@
                     android:text="@string/enable" />
 
             </LinearLayout>
-
         </LinearLayout>
-
     </FrameLayout>
-
 </FrameLayout>
