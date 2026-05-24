@@ -27,6 +27,7 @@ import app.zlauncher.data.Prefs
 import app.zlauncher.data.WeatherCode
 import app.zlauncher.databinding.FragmentWidgetsBinding
 import app.zlauncher.helper.dpToPx
+import app.zlauncher.helper.getColorFromAttr
 import app.zlauncher.helper.getUserHandleFromString
 import app.zlauncher.helper.hideKeyboard
 import app.zlauncher.helper.isPackageInstalled
@@ -160,6 +161,7 @@ class WidgetsFragment : Fragment() {
     private fun renderHourly(hourly: List<HourlyWeather>) {
         binding.hourlyRow.removeAllViews()
         if (hourly.isEmpty()) return
+        val textColor = requireContext().getColorFromAttr(R.attr.primaryColor)
         val pattern = if (DateFormat.is24HourFormat(requireContext())) "HH" else "ha"
         hourly.forEach { hour ->
             val cell = LinearLayout(requireContext()).apply {
@@ -169,15 +171,21 @@ class WidgetsFragment : Fragment() {
             val time = TextView(requireContext()).apply {
                 text = DateFormat.format(pattern, Date(hour.timeMillis)).toString().lowercase(Locale.getDefault())
                 textSize = 12f
+                setTextColor(textColor)
+                setShadowLayer(0f, 0f, 0f, 0)
             }
             val glyph = TextView(requireContext()).apply {
                 text = WeatherCode.glyph(hour.code)
                 textSize = 16f
+                setTextColor(textColor)
+                setShadowLayer(0f, 0f, 0f, 0)
                 setPadding(0, 4.dpToPx(), 0, 0)
             }
             val temp = TextView(requireContext()).apply {
                 text = String.format(Locale.getDefault(), "%d\u00B0", hour.tempC.cToF().roundToInt())
                 textSize = 12f
+                setTextColor(textColor)
+                setShadowLayer(0f, 0f, 0f, 0)
                 setPadding(0, 2.dpToPx(), 0, 0)
             }
             cell.addView(time)

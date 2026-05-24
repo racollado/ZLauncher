@@ -69,7 +69,14 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         initSwipeTouchListener()
         initClickListeners()
         renderCornerIcons()
+        binding.root.viewTreeObserver.addOnGlobalLayoutListener { updateHomeAppsLayout() }
     }
+
+    private fun homeAppSlots(): List<TextView> = listOf(
+        binding.homeApp1, binding.homeApp2, binding.homeApp3, binding.homeApp4,
+        binding.homeApp5, binding.homeApp6, binding.homeApp7, binding.homeApp8,
+        binding.homeApp9, binding.homeApp10, binding.homeApp11, binding.homeApp12,
+    )
 
     override fun onResume() {
         super.onResume()
@@ -109,6 +116,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             R.id.homeApp6 -> showAppList(Constants.FLAG_SET_HOME_APP_6, rename = prefs.appName6.isNotEmpty(), includeHiddenApps = true)
             R.id.homeApp7 -> showAppList(Constants.FLAG_SET_HOME_APP_7, rename = prefs.appName7.isNotEmpty(), includeHiddenApps = true)
             R.id.homeApp8 -> showAppList(Constants.FLAG_SET_HOME_APP_8, rename = prefs.appName8.isNotEmpty(), includeHiddenApps = true)
+            R.id.homeApp9 -> showAppList(Constants.FLAG_SET_HOME_APP_9, rename = prefs.appName9.isNotEmpty(), includeHiddenApps = true)
+            R.id.homeApp10 -> showAppList(Constants.FLAG_SET_HOME_APP_10, rename = prefs.appName10.isNotEmpty(), includeHiddenApps = true)
+            R.id.homeApp11 -> showAppList(Constants.FLAG_SET_HOME_APP_11, rename = prefs.appName11.isNotEmpty(), includeHiddenApps = true)
+            R.id.homeApp12 -> showAppList(Constants.FLAG_SET_HOME_APP_12, rename = prefs.appName12.isNotEmpty(), includeHiddenApps = true)
             R.id.clock -> {
                 showAppList(Constants.FLAG_SET_CLOCK_APP)
                 prefs.clockAppPackage = ""
@@ -165,6 +176,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         binding.homeApp6.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp6))
         binding.homeApp7.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp7))
         binding.homeApp8.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp8))
+        binding.homeApp9.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp9))
+        binding.homeApp10.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp10))
+        binding.homeApp11.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp11))
+        binding.homeApp12.setOnTouchListener(getViewSwipeTouchListener(context, binding.homeApp12))
     }
 
     private fun initClickListeners() {
@@ -183,17 +198,51 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun setHomeAlignment(horizontalGravity: Int = prefs.homeAlignment) {
-        val verticalGravity = if (prefs.homeBottomAlignment) Gravity.BOTTOM else Gravity.CENTER_VERTICAL
-        binding.homeAppsLayout.gravity = horizontalGravity or verticalGravity
         binding.dateTimeLayout.gravity = horizontalGravity
-        binding.homeApp1.gravity = horizontalGravity
-        binding.homeApp2.gravity = horizontalGravity
-        binding.homeApp3.gravity = horizontalGravity
-        binding.homeApp4.gravity = horizontalGravity
-        binding.homeApp5.gravity = horizontalGravity
-        binding.homeApp6.gravity = horizontalGravity
-        binding.homeApp7.gravity = horizontalGravity
-        binding.homeApp8.gravity = horizontalGravity
+        homeAppSlots().forEach { it.gravity = horizontalGravity }
+        updateHomeAppsLayout()
+    }
+
+    private fun updateHomeAppsLayout() {
+        if (_binding == null) return
+        val homeAppsNum = prefs.homeAppsNum
+        val horizontalPad = binding.homeAppsLayout.paddingLeft
+        val headerMargin = resources.getDimensionPixelSize(R.dimen.home_apps_header_margin)
+        val bottomMargin = resources.getDimensionPixelSize(R.dimen.home_apps_bottom_margin)
+
+        val topInset = if (binding.dateTimeLayout.isVisible && binding.dateTimeLayout.height > 0) {
+            binding.dateTimeLayout.bottom + headerMargin
+        } else {
+            resources.getDimensionPixelSize(R.dimen.home_apps_default_top_padding)
+        }
+
+        val cornerTop = minOf(binding.cornerLeftButton.top, binding.cornerRightButton.top)
+        val bottomInset = if (cornerTop > 0) {
+            (binding.root.height - cornerTop + bottomMargin).coerceAtLeast(
+                resources.getDimensionPixelSize(R.dimen.home_apps_default_bottom_padding)
+            )
+        } else {
+            resources.getDimensionPixelSize(R.dimen.home_apps_default_bottom_padding)
+        }
+
+        binding.homeAppsLayout.setPadding(horizontalPad, topInset, horizontalPad, bottomInset)
+
+        val defaultPad = resources.getDimensionPixelSize(R.dimen.home_app_padding_vertical)
+        val verticalPad = when {
+            homeAppsNum <= 4 -> defaultPad
+            homeAppsNum <= 8 -> (defaultPad * 0.75f).toInt().coerceAtLeast(2)
+            else -> (defaultPad * 0.5f).toInt().coerceAtLeast(1)
+        }
+        homeAppSlots().forEach { slot ->
+            slot.setPadding(slot.paddingLeft, verticalPad, slot.paddingRight, verticalPad)
+        }
+
+        val verticalGravity = when {
+            prefs.homeBottomAlignment -> Gravity.BOTTOM
+            homeAppsNum > 8 -> Gravity.TOP
+            else -> Gravity.CENTER_VERTICAL
+        }
+        binding.homeAppsLayout.gravity = prefs.homeAlignment or verticalGravity
     }
 
     private fun populateDateTime() {
@@ -210,6 +259,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         val showBattery = dateVisible && !prefs.showStatusBar && battery > 0
         binding.battery.isVisible = showBattery
         if (showBattery) binding.battery.text = "$battery%"
+        updateHomeAppsLayout()
     }
 
     private fun populateHomeScreen(appCountUpdated: Boolean) {
@@ -219,10 +269,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         val homeAppsNum = prefs.homeAppsNum
         if (homeAppsNum == 0) return
 
-        val slots = listOf(
-            binding.homeApp1, binding.homeApp2, binding.homeApp3, binding.homeApp4,
-            binding.homeApp5, binding.homeApp6, binding.homeApp7, binding.homeApp8,
-        )
+        val slots = homeAppSlots()
         for (i in 0 until homeAppsNum) {
             val location = i + 1
             slots[i].visibility = View.VISIBLE
@@ -238,6 +285,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
                 writeEmptySlot(location)
             }
         }
+        updateHomeAppsLayout()
     }
 
     private fun writeEmptySlot(location: Int) {
@@ -250,6 +298,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
             6 -> { prefs.appName6 = ""; prefs.appPackage6 = "" }
             7 -> { prefs.appName7 = ""; prefs.appPackage7 = "" }
             8 -> { prefs.appName8 = ""; prefs.appPackage8 = "" }
+            9 -> { prefs.appName9 = ""; prefs.appPackage9 = "" }
+            10 -> { prefs.appName10 = ""; prefs.appPackage10 = "" }
+            11 -> { prefs.appName11 = ""; prefs.appPackage11 = "" }
+            12 -> { prefs.appName12 = ""; prefs.appPackage12 = "" }
         }
     }
 
@@ -293,14 +345,7 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun hideHomeApps() {
-        binding.homeApp1.visibility = View.GONE
-        binding.homeApp2.visibility = View.GONE
-        binding.homeApp3.visibility = View.GONE
-        binding.homeApp4.visibility = View.GONE
-        binding.homeApp5.visibility = View.GONE
-        binding.homeApp6.visibility = View.GONE
-        binding.homeApp7.visibility = View.GONE
-        binding.homeApp8.visibility = View.GONE
+        homeAppSlots().forEach { it.visibility = View.GONE }
     }
 
     private fun launchAppOrShortcut(

@@ -80,6 +80,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             Constants.FLAG_SET_HOME_APP_6 -> saveHomeApp(appModel, 6)
             Constants.FLAG_SET_HOME_APP_7 -> saveHomeApp(appModel, 7)
             Constants.FLAG_SET_HOME_APP_8 -> saveHomeApp(appModel, 8)
+            Constants.FLAG_SET_HOME_APP_9 -> saveHomeApp(appModel, 9)
+            Constants.FLAG_SET_HOME_APP_10 -> saveHomeApp(appModel, 10)
+            Constants.FLAG_SET_HOME_APP_11 -> saveHomeApp(appModel, 11)
+            Constants.FLAG_SET_HOME_APP_12 -> saveHomeApp(appModel, 12)
 
             Constants.FLAG_SET_SWIPE_LEFT_APP -> saveSwipeApp(appModel, isLeft = true)
             Constants.FLAG_SET_SWIPE_RIGHT_APP -> saveSwipeApp(appModel, isLeft = false)
@@ -115,6 +119,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             6 -> { prefs.appName6 = label; prefs.appPackage6 = packageName; prefs.appUser6 = user; prefs.appActivityClassName6 = activityClass; prefs.isShortcut6 = isShortcut; prefs.shortcutId6 = shortcutId }
             7 -> { prefs.appName7 = label; prefs.appPackage7 = packageName; prefs.appUser7 = user; prefs.appActivityClassName7 = activityClass; prefs.isShortcut7 = isShortcut; prefs.shortcutId7 = shortcutId }
             8 -> { prefs.appName8 = label; prefs.appPackage8 = packageName; prefs.appUser8 = user; prefs.appActivityClassName8 = activityClass; prefs.isShortcut8 = isShortcut; prefs.shortcutId8 = shortcutId }
+            9 -> { prefs.appName9 = label; prefs.appPackage9 = packageName; prefs.appUser9 = user; prefs.appActivityClassName9 = activityClass; prefs.isShortcut9 = isShortcut; prefs.shortcutId9 = shortcutId }
+            10 -> { prefs.appName10 = label; prefs.appPackage10 = packageName; prefs.appUser10 = user; prefs.appActivityClassName10 = activityClass; prefs.isShortcut10 = isShortcut; prefs.shortcutId10 = shortcutId }
+            11 -> { prefs.appName11 = label; prefs.appPackage11 = packageName; prefs.appUser11 = user; prefs.appActivityClassName11 = activityClass; prefs.isShortcut11 = isShortcut; prefs.shortcutId11 = shortcutId }
+            12 -> { prefs.appName12 = label; prefs.appPackage12 = packageName; prefs.appUser12 = user; prefs.appActivityClassName12 = activityClass; prefs.isShortcut12 = isShortcut; prefs.shortcutId12 = shortcutId }
         }
         refreshHome(false)
     }

@@ -100,10 +100,15 @@ class AppDrawerFragment : Fragment() {
         }
     }
 
+    fun clearPickMode() {
+        if (flag == Constants.FLAG_LAUNCH_APP) return
+        applyFlag(Constants.FLAG_LAUNCH_APP, canRename = false)
+    }
+
     private fun applyHintForFlag() {
         binding.search.queryHint = when {
             flag == Constants.FLAG_HIDDEN_APPS -> getString(R.string.hidden_apps)
-            flag in Constants.FLAG_SET_HOME_APP_1..Constants.FLAG_SET_WEATHER_APP -> "Please select an app"
+            Constants.isPickAppFlag(flag) -> "Please select an app"
             else -> getString(R.string.search_apps_hint)
         }
         try {
@@ -156,7 +161,12 @@ class AppDrawerFragment : Fragment() {
                 Constants.FLAG_SET_HOME_APP_6 -> prefs.appName6 = name
                 Constants.FLAG_SET_HOME_APP_7 -> prefs.appName7 = name
                 Constants.FLAG_SET_HOME_APP_8 -> prefs.appName8 = name
+                Constants.FLAG_SET_HOME_APP_9 -> prefs.appName9 = name
+                Constants.FLAG_SET_HOME_APP_10 -> prefs.appName10 = name
+                Constants.FLAG_SET_HOME_APP_11 -> prefs.appName11 = name
+                Constants.FLAG_SET_HOME_APP_12 -> prefs.appName12 = name
             }
+            clearPickMode()
             viewModel.snapToHome()
         }
     }
@@ -345,13 +355,20 @@ class AppDrawerFragment : Fragment() {
     }
 
     private fun initScrubber() {
+        binding.scrubber.onResetSelected = {
+            clearLetterFilter()
+            linearLayoutManager.scrollToPositionWithOffset(0, 0)
+        }
         binding.scrubber.onLetterSelected = { letter ->
-            // Toggle: re-tapping the active letter clears the filter.
             val newFilter = if (adapter.firstLetterFilter == letter) null else letter
             adapter.firstLetterFilter = newFilter
             adapter.filter.filter(binding.search.query)
             binding.scrubber.setActiveLetter(newFilter)
-            binding.scrubberPreview.text = newFilter?.toString().orEmpty()
+            binding.scrubberPreview.text = when (newFilter) {
+                null -> ""
+                '#' -> "\u00B7"
+                else -> newFilter.toString()
+            }
             linearLayoutManager.scrollToPositionWithOffset(0, 0)
         }
         binding.scrubber.onScrubStarted = {
@@ -364,19 +381,28 @@ class AppDrawerFragment : Fragment() {
     }
 
     private fun handleAppPicked(appModel: AppModel) {
-        // Reset the search field and letter filter BEFORE launching so the launcher
-        // is in a clean state when the user returns from the picked app.
         binding.search.setQuery("", false)
         binding.search.hideKeyboard()
         clearLetterFilter()
-        viewModel.selectedApp(appModel, flag)
+        val pickFlag = flag
+        viewModel.selectedApp(appModel, pickFlag)
+        if (pickFlag != Constants.FLAG_LAUNCH_APP) {
+            clearPickMode()
+        }
         viewModel.snapToHome()
     }
 
     private fun clearLetterFilter() {
+        if (adapter.firstLetterFilter == null && binding.scrubberPreview.text.isNullOrEmpty()) {
+            binding.scrubber.setActiveLetter(null)
+            return
+        }
         adapter.firstLetterFilter = null
         binding.scrubber.setActiveLetter(null)
         binding.scrubberPreview.text = ""
+        if (::adapter.isInitialized) {
+            adapter.filter.filter(binding.search.query)
+        }
     }
 
     private fun getRecyclerViewOnScrollListener(): RecyclerView.OnScrollListener {

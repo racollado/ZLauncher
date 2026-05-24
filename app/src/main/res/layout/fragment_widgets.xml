@@ -31,14 +31,14 @@
 
             <TextView
                 android:id="@+id/weatherHeader"
-                style="@style/TextSmall"
+                style="@style/TextSmallOpaque"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/weather" />
 
             <TextView
                 android:id="@+id/weatherStatus"
-                style="@style/TextLarge"
+                style="@style/TextLargeOpaque"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
@@ -46,7 +46,7 @@
 
             <TextView
                 android:id="@+id/weatherCondition"
-                style="@style/TextSmall"
+                style="@style/TextSmallOpaque"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Mostly clear" />

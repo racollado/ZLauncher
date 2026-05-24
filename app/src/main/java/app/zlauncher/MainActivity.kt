@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
 import app.zlauncher.data.Constants
 import app.zlauncher.data.Prefs
 import app.zlauncher.databinding.ActivityMainBinding
@@ -79,6 +80,13 @@ class MainActivity : AppCompatActivity() {
         binding.pager.adapter = MainPagerAdapter(this)
         binding.pager.setCurrentItem(MainPagerAdapter.PAGE_HOME, false)
         binding.pager.offscreenPageLimit = 1
+        binding.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                if (position != MainPagerAdapter.PAGE_DRAWER) {
+                    resetDrawerPickMode()
+                }
+            }
+        })
 
         backCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -227,13 +235,13 @@ class MainActivity : AppCompatActivity() {
         }
         val drawer = (supportFragmentManager.findFragmentByTag("f${MainPagerAdapter.PAGE_DRAWER}") as? AppDrawerFragment)
         if (drawer != null) {
-            drawer.applyFlag(flag, canRename = false)
+            drawer.applyFlag(flag, canRename = AppDrawerFragment.pendingRename)
         } else {
             // Defer until the fragment exists; ViewPager2 instantiates lazily.
             binding.pager.post {
                 val refreshed = supportFragmentManager.findFragmentByTag("f${MainPagerAdapter.PAGE_DRAWER}")
                         as? AppDrawerFragment
-                refreshed?.applyFlag(flag, canRename = false) ?: run {
+                refreshed?.applyFlag(flag, canRename = AppDrawerFragment.pendingRename) ?: run {
                     AppDrawerFragment.pendingFlag = flag
                 }
             }
@@ -261,8 +269,14 @@ class MainActivity : AppCompatActivity() {
         if (viewModel.isPrivateSpaceToggling) return
         if (binding.settingsOverlay.visibility == android.view.View.VISIBLE) closeSettingsOverlay()
         if (binding.pager.currentItem != MainPagerAdapter.PAGE_HOME) {
+            resetDrawerPickMode()
             binding.pager.setCurrentItem(MainPagerAdapter.PAGE_HOME, false)
         }
+    }
+
+    private fun resetDrawerPickMode() {
+        (supportFragmentManager.findFragmentByTag("f${MainPagerAdapter.PAGE_DRAWER}") as? AppDrawerFragment)
+            ?.clearPickMode()
     }
 
     private fun restartLauncherOrCheckTheme(forceRestart: Boolean = false) {

@@ -12,7 +12,8 @@ import app.zlauncher.helper.getColorFromAttr
 
 /**
  * Vertical strip of the distinct first letters present in the drawer's current list.
- * Touching/dragging maps a y-coordinate to a letter and fires [onLetterSelected].
+ * A dot at the top clears the active letter filter. Touching/dragging maps a
+ * y-coordinate to a letter and fires [onLetterSelected].
  */
 class AlphabetScrubberView @JvmOverloads constructor(
     context: Context,
@@ -23,8 +24,10 @@ class AlphabetScrubberView @JvmOverloads constructor(
     private var letters: List<Char> = emptyList()
     private var selectedIndex: Int = -1
     private var lastNotifiedLetter: Char? = null
+    private var filterActive: Boolean = false
 
     var onLetterSelected: ((Char) -> Unit)? = null
+    var onResetSelected: (() -> Unit)? = null
     var onScrubStarted: (() -> Unit)? = null
     var onScrubEnded: (() -> Unit)? = null
 
@@ -44,12 +47,13 @@ class AlphabetScrubberView @JvmOverloads constructor(
 
     init {
         isClickable = true
+        contentDescription = context.getString(R.string.cd_scrubber_reset)
         applyThemeColors()
     }
 
     private fun applyThemeColors() {
         paint.color = context.getColorFromAttr(R.attr.primaryColor)
-        paint.alpha = 140
+        paint.alpha = 255
         highlightPaint.color = context.getColorFromAttr(R.attr.primaryColor)
     }
 
@@ -65,7 +69,20 @@ class AlphabetScrubberView @JvmOverloads constructor(
     fun setActiveLetter(letter: Char?) {
         lastNotifiedLetter = letter
         selectedIndex = letter?.let { letters.indexOf(it) } ?: -1
+        filterActive = letter != null
         invalidate()
+    }
+
+    private fun hasResetDot(): Boolean = onResetSelected != null
+
+    private fun sectionMetrics(): Triple<Float, Float, Float> {
+        val available = (height - paddingTop - paddingBottom).toFloat()
+        val slotCount = letters.size + if (hasResetDot()) 1 else 0
+        if (slotCount == 0) return Triple(0f, 0f, available)
+        val sectionHeight = available / slotCount
+        val resetHeight = if (hasResetDot()) sectionHeight else 0f
+        val lettersHeight = available - resetHeight
+        return Triple(sectionHeight, resetHeight, lettersHeight)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -80,12 +97,25 @@ class AlphabetScrubberView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (letters.isEmpty()) return
-        val sectionHeight = (height - paddingTop - paddingBottom).toFloat() / letters.size
+        if (letters.isEmpty() && !hasResetDot()) return
+
+        val (sectionHeight, resetHeight, lettersHeight) = sectionMetrics()
         val cx = width / 2f
+
+        if (hasResetDot()) {
+            val resetCenterY = paddingTop + resetHeight / 2f
+            val resetPaint = if (filterActive) highlightPaint else paint
+            val resetBaseline = resetCenterY - (resetPaint.descent() + resetPaint.ascent()) / 2f
+            canvas.drawText(RESET_DOT, cx, resetBaseline, resetPaint)
+        }
+
+        if (letters.isEmpty()) return
+
+        val letterSectionHeight = lettersHeight / letters.size
+        val lettersTop = paddingTop + resetHeight
         for (i in letters.indices) {
-            val baseY = paddingTop + sectionHeight * i + sectionHeight / 2f
-            val text = letters[i].toString()
+            val baseY = lettersTop + letterSectionHeight * i + letterSectionHeight / 2f
+            val text = displayLabel(letters[i])
             val p = if (i == selectedIndex) highlightPaint else paint
             val textBaseline = baseY - (p.descent() + p.ascent()) / 2f
             canvas.drawText(text, cx, textBaseline, p)
@@ -93,36 +123,56 @@ class AlphabetScrubberView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (letters.isEmpty()) return false
+        if (letters.isEmpty() && !hasResetDot()) return false
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 onScrubStarted?.invoke()
-                handleTouch(event.y)
+                handleTouch(event.y, allowRepeat = false)
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
-                handleTouch(event.y)
+                handleTouch(event.y, allowRepeat = false)
                 return true
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                handleTouch(event.y, allowRepeat = true)
                 onScrubEnded?.invoke()
-                // Keep selectedIndex so the active letter stays highlighted.
                 return true
             }
         }
         return false
     }
 
-    private fun handleTouch(y: Float) {
+    private fun handleTouch(y: Float, allowRepeat: Boolean) {
+        val (sectionHeight, resetHeight, lettersHeight) = sectionMetrics()
         val clamped = y.coerceIn(paddingTop.toFloat(), (height - paddingBottom).toFloat())
-        val sectionHeight = (height - paddingTop - paddingBottom).toFloat() / letters.size
-        val index = ((clamped - paddingTop) / sectionHeight).toInt().coerceIn(0, letters.size - 1)
+
+        if (hasResetDot() && clamped < paddingTop + resetHeight) {
+            if (allowRepeat || filterActive) {
+                onResetSelected?.invoke()
+            }
+            return
+        }
+
+        if (letters.isEmpty()) return
+
+        val lettersTop = paddingTop + resetHeight
+        val letterSectionHeight = lettersHeight / letters.size
+        val index = ((clamped - lettersTop) / letterSectionHeight)
+            .toInt()
+            .coerceIn(0, letters.size - 1)
         val letter = letters[index]
-        if (letter != lastNotifiedLetter) {
+        if (letter != lastNotifiedLetter || allowRepeat) {
             lastNotifiedLetter = letter
             selectedIndex = index
             invalidate()
             onLetterSelected?.invoke(letter)
         }
+    }
+
+    private fun displayLabel(letter: Char): String = letter.toString()
+
+    companion object {
+        private const val RESET_DOT = "\u00B7"
     }
 }

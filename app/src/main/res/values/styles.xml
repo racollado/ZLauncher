@@ -91,4 +91,18 @@
         <item name="android:textColor">@drawable/text_colors_light</item>
     </style>
 
+    <style name="TextOpaque" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">?attr/primaryColor</item>
+        <item name="android:shadowRadius">0</item>
+    </style>
+
+    <style name="TextLargeOpaque" parent="TextOpaque">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <style name="TextSmallOpaque" parent="TextOpaque">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
 </resources>

@@ -10,6 +10,10 @@
     <string name="tag_6" translatable="false">6</string>
     <string name="tag_7" translatable="false">7</string>
     <string name="tag_8" translatable="false">8</string>
+    <string name="tag_9" translatable="false">9</string>
+    <string name="tag_10" translatable="false">10</string>
+    <string name="tag_11" translatable="false">11</string>
+    <string name="tag_12" translatable="false">12</string>
 
     <string name="app">App</string>
     <string name="set_as_default_launcher">Set as default launcher</string>
@@ -40,6 +44,10 @@
     <string name="_6">6</string>
     <string name="_7">7</string>
     <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="_10">10</string>
+    <string name="_11">11</string>
+    <string name="_12">12</string>
     <string name="okay">Okay</string>
     <string name="hide">Hide</string>
     <string name="status_bar">Status bar on top</string>
@@ -108,4 +116,5 @@
     <string name="cd_search">Search</string>
     <string name="cd_bottom_left_app">Bottom left app</string>
     <string name="cd_bottom_right_app">Bottom right app</string>
+    <string name="cd_scrubber_reset">Show all apps</string>
 </resources>
