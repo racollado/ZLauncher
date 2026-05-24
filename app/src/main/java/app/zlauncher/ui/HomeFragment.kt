@@ -199,17 +199,17 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun populateDateTime() {
         binding.dateTimeLayout.isVisible = prefs.dateTimeVisibility != Constants.DateTime.OFF
         binding.clock.isVisible = Constants.DateTime.isTimeVisible(prefs.dateTimeVisibility)
-        binding.date.isVisible = Constants.DateTime.isDateVisible(prefs.dateTimeVisibility)
+        val dateVisible = Constants.DateTime.isDateVisible(prefs.dateTimeVisibility)
+        binding.date.isVisible = dateVisible
 
-        val dateFormat = SimpleDateFormat("EEE, d MMM", Locale.getDefault())
-        var dateText = dateFormat.format(Date())
+        val dateFormat = SimpleDateFormat("EEEE, MMMM d", Locale.getDefault())
+        binding.date.text = dateFormat.format(Date())
 
-        if (!prefs.showStatusBar) {
-            val battery = (requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager)
-                .getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
-            if (battery > 0) dateText = getString(R.string.day_battery, dateText, battery)
-        }
-        binding.date.text = dateText.replace(".,", ",")
+        val battery = (requireContext().getSystemService(Context.BATTERY_SERVICE) as BatteryManager)
+            .getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
+        val showBattery = dateVisible && !prefs.showStatusBar && battery > 0
+        binding.battery.isVisible = showBattery
+        if (showBattery) binding.battery.text = "$battery%"
     }
 
     private fun populateHomeScreen(appCountUpdated: Boolean) {

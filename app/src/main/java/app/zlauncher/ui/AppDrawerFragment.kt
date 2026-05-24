@@ -91,6 +91,7 @@ class AppDrawerFragment : Fragment() {
         adapter.updateFlag(newFlag)
         applyHintForFlag()
         binding.appRename.visibility = View.GONE
+        clearLetterFilter()
         if (newFlag != Constants.FLAG_LAUNCH_APP) {
             binding.search.setQuery("", false)
             showSearchView()
@@ -171,6 +172,8 @@ class AppDrawerFragment : Fragment() {
     }
 
     private fun showSearchView() {
+        clearLetterFilter()
+        adapter.filter.filter(binding.search.query)
         binding.search.visibility = View.VISIBLE
         binding.search.isIconified = false
         binding.search.requestFocus()
@@ -333,24 +336,23 @@ class AppDrawerFragment : Fragment() {
     private fun refreshScrubberLetters(items: List<AppModel>) {
         val letters = items
             .filter { it !is AppModel.PrivateSpaceHeader && it.appLabel.isNotBlank() }
-            .map { it.appLabel.first().uppercaseChar() }
-            .filter { it.isLetter() || it.isDigit() }
+            .mapNotNull { firstCharCategory(it.appLabel) }
             .distinct()
-            .sorted()
+            .sortedWith(compareBy<Char> { it != '#' }.thenBy { it })
         binding.scrubber.setLetters(letters)
+        binding.scrubber.setActiveLetter(adapter.firstLetterFilter)
         binding.scrubber.isVisible = letters.isNotEmpty() && binding.search.query.isNullOrBlank()
     }
 
     private fun initScrubber() {
         binding.scrubber.onLetterSelected = { letter ->
-            val position = adapter.appFilteredList.indexOfFirst {
-                it !is AppModel.PrivateSpaceHeader &&
-                        it.appLabel.firstOrNull()?.uppercaseChar() == letter
-            }
-            if (position >= 0) {
-                linearLayoutManager.scrollToPositionWithOffset(position, 0)
-                binding.scrubberPreview.text = letter.toString()
-            }
+            // Toggle: re-tapping the active letter clears the filter.
+            val newFilter = if (adapter.firstLetterFilter == letter) null else letter
+            adapter.firstLetterFilter = newFilter
+            adapter.filter.filter(binding.search.query)
+            binding.scrubber.setActiveLetter(newFilter)
+            binding.scrubberPreview.text = newFilter?.toString().orEmpty()
+            linearLayoutManager.scrollToPositionWithOffset(0, 0)
         }
         binding.scrubber.onScrubStarted = {
             binding.search.hideKeyboard()
@@ -362,9 +364,19 @@ class AppDrawerFragment : Fragment() {
     }
 
     private fun handleAppPicked(appModel: AppModel) {
-        viewModel.selectedApp(appModel, flag)
+        // Reset the search field and letter filter BEFORE launching so the launcher
+        // is in a clean state when the user returns from the picked app.
+        binding.search.setQuery("", false)
         binding.search.hideKeyboard()
+        clearLetterFilter()
+        viewModel.selectedApp(appModel, flag)
         viewModel.snapToHome()
+    }
+
+    private fun clearLetterFilter() {
+        adapter.firstLetterFilter = null
+        binding.scrubber.setActiveLetter(null)
+        binding.scrubberPreview.text = ""
     }
 
     private fun getRecyclerViewOnScrollListener(): RecyclerView.OnScrollListener {
@@ -378,6 +390,10 @@ class AppDrawerFragment : Fragment() {
 
     override fun onStop() {
         binding.search.hideKeyboard()
+        if (_binding != null && ::adapter.isInitialized) {
+            clearLetterFilter()
+            adapter.filter.filter("")
+        }
         super.onStop()
     }
 

@@ -142,7 +142,7 @@ class WidgetsFragment : Fragment() {
                 binding.hourlyRow.removeAllViews()
             }
             is WidgetsViewModel.WeatherState.Loaded -> {
-                val temp = state.forecast.currentTempC.roundToInt()
+                val temp = state.forecast.currentTempC.cToF().roundToInt()
                 val glyph = WeatherCode.glyph(state.forecast.currentCode)
                 val location = state.locationLabel ?: ""
                 binding.weatherStatus.text = if (location.isBlank()) {
@@ -160,16 +160,15 @@ class WidgetsFragment : Fragment() {
     private fun renderHourly(hourly: List<HourlyWeather>) {
         binding.hourlyRow.removeAllViews()
         if (hourly.isEmpty()) return
-        val timeFormat = if (DateFormat.is24HourFormat(requireContext())) "HH" else "h"
+        val pattern = if (DateFormat.is24HourFormat(requireContext())) "HH" else "ha"
         hourly.forEach { hour ->
             val cell = LinearLayout(requireContext()).apply {
                 layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
                 orientation = LinearLayout.VERTICAL
             }
             val time = TextView(requireContext()).apply {
-                text = DateFormat.format(timeFormat, Date(hour.timeMillis))
+                text = DateFormat.format(pattern, Date(hour.timeMillis)).toString().lowercase(Locale.getDefault())
                 textSize = 12f
-                alpha = 0.6f
             }
             val glyph = TextView(requireContext()).apply {
                 text = WeatherCode.glyph(hour.code)
@@ -177,7 +176,7 @@ class WidgetsFragment : Fragment() {
                 setPadding(0, 4.dpToPx(), 0, 0)
             }
             val temp = TextView(requireContext()).apply {
-                text = String.format(Locale.getDefault(), "%d\u00B0", hour.tempC.roundToInt())
+                text = String.format(Locale.getDefault(), "%d\u00B0", hour.tempC.cToF().roundToInt())
                 textSize = 12f
                 setPadding(0, 2.dpToPx(), 0, 0)
             }
@@ -188,9 +187,10 @@ class WidgetsFragment : Fragment() {
         }
     }
 
+    private fun Double.cToF(): Double = this * 9.0 / 5.0 + 32.0
+
     private fun renderTodo(tasks: List<String>) {
         binding.todoList.removeAllViews()
-        binding.todoEmpty.isVisible = tasks.isEmpty()
         tasks.forEachIndexed { index, task ->
             val row = TextView(requireContext()).apply {
                 text = task
