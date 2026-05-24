@@ -2,7 +2,6 @@
     <string name="app_name" translatable="false">ZLauncher</string>
     <string name="lock_layout_description" translatable="false">lock layout description to be used as a unique id to lock screen</string>
     <string name="recents_layout_description" translatable="false">recents layout description to be used as a unique id to show recent apps</string>
-    <string name="day_battery" formatted="false" translatable="false">%s, %d%%</string>
     <string name="tag_1" translatable="false">1</string>
     <string name="tag_2" translatable="false">2</string>
     <string name="tag_3" translatable="false">3</string>
@@ -101,8 +100,6 @@
     <string name="weather_summary_no_location" formatted="false" translatable="false">%1$s  %2$d\u00B0</string>
     <string name="todo">To-do</string>
     <string name="todo_add_hint">Add task…</string>
-    <string name="todo_empty">No tasks. Add one below.</string>
-    <string name="tap_to_remove">Tap a task to remove it</string>
 
     <!-- Drawer search button -->
     <string name="search_apps_hint">Search</string>

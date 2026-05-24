@@ -34,7 +34,6 @@
                 style="@style/TextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.6"
                 android:text="@string/weather" />
 
             <TextView
@@ -50,7 +49,6 @@
                 style="@style/TextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.7"
                 tools:text="Mostly clear" />
 
             <LinearLayout
@@ -76,7 +74,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginVertical="20dp"
-            android:alpha="0.2"
             android:background="?attr/primaryColor" />
 
         <!-- To-do card -->
@@ -90,7 +87,6 @@
                 style="@style/TextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.6"
                 android:text="@string/todo" />
 
             <LinearLayout
@@ -100,16 +96,6 @@
                 android:layout_marginTop="6dp"
                 android:animateLayoutChanges="true"
                 android:orientation="vertical" />
-
-            <TextView
-                android:id="@+id/todoEmpty"
-                style="@style/TextSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:text="@string/todo_empty"
-                android:visibility="gone"
-                tools:visibility="visible" />
 
             <EditText
                 android:id="@+id/todoInput"
