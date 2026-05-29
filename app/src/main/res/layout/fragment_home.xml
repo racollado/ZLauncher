@@ -74,7 +74,7 @@
 
         <TextView
             android:id="@+id/homeApp1"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -85,7 +85,7 @@
 
         <TextView
             android:id="@+id/homeApp2"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -96,7 +96,7 @@
 
         <TextView
             android:id="@+id/homeApp3"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -107,7 +107,7 @@
 
         <TextView
             android:id="@+id/homeApp4"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -118,7 +118,7 @@
 
         <TextView
             android:id="@+id/homeApp5"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -129,7 +129,7 @@
 
         <TextView
             android:id="@+id/homeApp6"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -140,7 +140,7 @@
 
         <TextView
             android:id="@+id/homeApp7"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -151,7 +151,7 @@
 
         <TextView
             android:id="@+id/homeApp8"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -162,7 +162,7 @@
 
         <TextView
             android:id="@+id/homeApp9"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -173,7 +173,7 @@
 
         <TextView
             android:id="@+id/homeApp10"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -184,7 +184,7 @@
 
         <TextView
             android:id="@+id/homeApp11"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"
@@ -195,7 +195,7 @@
 
         <TextView
             android:id="@+id/homeApp12"
-            style="@style/TextLarge"
+            style="@style/TextLargeHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="@string/app"

@@ -109,20 +109,29 @@
                 android:layout_height="wrap_content"
                 android:text="@string/todo" />
 
-            <LinearLayout
-                android:id="@+id/todoList"
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/todoScroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:animateLayoutChanges="true"
-                android:orientation="vertical" />
+                android:layout_marginTop="@dimen/todo_list_margin_top"
+                android:maxHeight="@dimen/todo_list_max_height"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/todoList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical" />
+            </androidx.core.widget.NestedScrollView>
 
             <EditText
                 android:id="@+id/todoInput"
                 style="@style/TextLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/todo_input_margin_top"
                 android:autofillHints="no"
                 android:background="@null"
                 android:hint="@string/todo_add_hint"

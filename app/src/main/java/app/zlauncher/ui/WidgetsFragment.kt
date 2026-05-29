@@ -211,11 +211,14 @@ class WidgetsFragment : Fragment() {
 
     private fun renderTodo(tasks: List<String>) {
         binding.todoList.removeAllViews()
+        val rowPadding = resources.getDimensionPixelSize(R.dimen.todo_row_padding_vertical)
+        val rowTextSize = resources.getDimension(R.dimen.todo_row_text_size) /
+            resources.displayMetrics.scaledDensity
         tasks.forEachIndexed { index, task ->
             val row = TextView(requireContext()).apply {
                 text = task
-                textSize = 18f
-                setPadding(0, 12.dpToPx(), 0, 12.dpToPx())
+                textSize = rowTextSize
+                setPadding(0, rowPadding, 0, rowPadding)
                 setBackgroundResource(android.R.color.transparent)
                 isClickable = true
                 isFocusable = true

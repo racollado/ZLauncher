@@ -75,6 +75,16 @@
         <item name="android:textSize">@dimen/text_large</item>
     </style>
 
+    <style name="TextLargeHome" parent="TextDefault">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/text_app_shortcut</item>
+    </style>
+
+    <style name="TextLargeDrawer" parent="TextDefault">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">@dimen/text_app_shortcut</item>
+    </style>
+
     <style name="TextMedium" parent="TextDefault">
         <item name="android:textSize">20sp</item>
     </style>

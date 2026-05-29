@@ -188,6 +188,7 @@ class AppDrawerFragment : Fragment() {
         binding.search.isIconified = false
         binding.search.requestFocus()
         binding.search.showKeyboard()
+        updateDrawerBottomPadding()
     }
 
     private fun hideSearchView() {
@@ -197,6 +198,28 @@ class AppDrawerFragment : Fragment() {
         binding.search.visibility = View.GONE
         binding.appRename.visibility = View.GONE
         binding.scrubber.isVisible = true
+        updateDrawerBottomPadding()
+    }
+
+    private fun updateDrawerBottomPadding() {
+        if (_binding == null) return
+        val clearance = if (binding.search.isVisible) {
+            resources.getDimensionPixelSize(R.dimen.drawer_search_open_clearance)
+        } else {
+            resources.getDimensionPixelSize(R.dimen.drawer_bottom_clearance)
+        }
+        binding.recyclerView.setPadding(
+            binding.recyclerView.paddingLeft,
+            binding.recyclerView.paddingTop,
+            binding.recyclerView.paddingRight,
+            clearance,
+        )
+        binding.scrubber.setPadding(
+            binding.scrubber.paddingLeft,
+            binding.scrubber.paddingTop,
+            binding.scrubber.paddingRight,
+            clearance,
+        )
     }
 
     private fun initAdapter() {

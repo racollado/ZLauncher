@@ -3,11 +3,14 @@ package app.zlauncher.ui
 import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.content.pm.LauncherApps
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Process
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -108,18 +111,18 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
 
     override fun onLongClick(view: View): Boolean {
         when (view.id) {
-            R.id.homeApp1 -> showAppList(Constants.FLAG_SET_HOME_APP_1, rename = prefs.appName1.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp2 -> showAppList(Constants.FLAG_SET_HOME_APP_2, rename = prefs.appName2.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp3 -> showAppList(Constants.FLAG_SET_HOME_APP_3, rename = prefs.appName3.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp4 -> showAppList(Constants.FLAG_SET_HOME_APP_4, rename = prefs.appName4.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp5 -> showAppList(Constants.FLAG_SET_HOME_APP_5, rename = prefs.appName5.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp6 -> showAppList(Constants.FLAG_SET_HOME_APP_6, rename = prefs.appName6.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp7 -> showAppList(Constants.FLAG_SET_HOME_APP_7, rename = prefs.appName7.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp8 -> showAppList(Constants.FLAG_SET_HOME_APP_8, rename = prefs.appName8.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp9 -> showAppList(Constants.FLAG_SET_HOME_APP_9, rename = prefs.appName9.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp10 -> showAppList(Constants.FLAG_SET_HOME_APP_10, rename = prefs.appName10.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp11 -> showAppList(Constants.FLAG_SET_HOME_APP_11, rename = prefs.appName11.isNotEmpty(), includeHiddenApps = true)
-            R.id.homeApp12 -> showAppList(Constants.FLAG_SET_HOME_APP_12, rename = prefs.appName12.isNotEmpty(), includeHiddenApps = true)
+            R.id.homeApp1 -> showAppListForHomeSlot(1)
+            R.id.homeApp2 -> showAppListForHomeSlot(2)
+            R.id.homeApp3 -> showAppListForHomeSlot(3)
+            R.id.homeApp4 -> showAppListForHomeSlot(4)
+            R.id.homeApp5 -> showAppListForHomeSlot(5)
+            R.id.homeApp6 -> showAppListForHomeSlot(6)
+            R.id.homeApp7 -> showAppListForHomeSlot(7)
+            R.id.homeApp8 -> showAppListForHomeSlot(8)
+            R.id.homeApp9 -> showAppListForHomeSlot(9)
+            R.id.homeApp10 -> showAppListForHomeSlot(10)
+            R.id.homeApp11 -> showAppListForHomeSlot(11)
+            R.id.homeApp12 -> showAppListForHomeSlot(12)
             R.id.clock -> {
                 showAppList(Constants.FLAG_SET_CLOCK_APP)
                 prefs.clockAppPackage = ""
@@ -228,13 +231,42 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         binding.homeAppsLayout.setPadding(horizontalPad, topInset, horizontalPad, bottomInset)
 
         val defaultPad = resources.getDimensionPixelSize(R.dimen.home_app_padding_vertical)
-        val verticalPad = when {
+        val baseVerticalPad = when {
             homeAppsNum <= 4 -> defaultPad
             homeAppsNum <= 8 -> (defaultPad * 0.75f).toInt().coerceAtLeast(2)
             else -> (defaultPad * 0.5f).toInt().coerceAtLeast(1)
         }
-        homeAppSlots().forEach { slot ->
-            slot.setPadding(slot.paddingLeft, verticalPad, slot.paddingRight, verticalPad)
+
+        val baseTextSizePx = resources.getDimension(R.dimen.text_app_shortcut)
+        val availableHeight = (binding.root.height - topInset - bottomInset).coerceAtLeast(0)
+        val scaleFactor = if (homeAppsNum > 0 && availableHeight > 0) {
+            val paint = Paint().apply {
+                textSize = baseTextSizePx
+                typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
+            }
+            val textHeight = paint.fontMetrics.run { descent - ascent }
+            val rowHeight = textHeight + 2 * baseVerticalPad
+            val totalHeight = rowHeight * homeAppsNum
+            if (totalHeight > availableHeight) {
+                (availableHeight / totalHeight).coerceIn(0.55f, 1f)
+            } else {
+                1f
+            }
+        } else {
+            1f
+        }
+
+        val scaledTextSizePx = baseTextSizePx * scaleFactor
+        val scaledVerticalPad = (baseVerticalPad * scaleFactor).toInt().coerceAtLeast(1)
+
+        homeAppSlots().forEachIndexed { index, slot ->
+            if (index < homeAppsNum) {
+                slot.setTextSize(TypedValue.COMPLEX_UNIT_PX, scaledTextSizePx)
+                slot.setPadding(slot.paddingLeft, scaledVerticalPad, slot.paddingRight, scaledVerticalPad)
+            } else {
+                slot.setTextSize(TypedValue.COMPLEX_UNIT_PX, baseTextSizePx)
+                slot.setPadding(slot.paddingLeft, baseVerticalPad, slot.paddingRight, baseVerticalPad)
+            }
         }
 
         val verticalGravity = if (prefs.homeBottomAlignment) Gravity.BOTTOM else Gravity.CENTER_VERTICAL
@@ -395,6 +427,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     }
 
     private fun homeAppClicked(location: Int) {
+        if (prefs.getAppName(location).isEmpty()) {
+            showAppListForHomeSlot(location)
+            return
+        }
         launchAppOrShortcut(
             appName = prefs.getAppName(location),
             packageName = prefs.getAppPackage(location),
@@ -465,6 +501,10 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
     private fun openCalendarApp() {
         if (prefs.calendarAppPackage.isBlank()) openCalendar(requireContext())
         else launchApp("Calendar", prefs.calendarAppPackage, prefs.calendarAppClassName, prefs.calendarAppUser)
+    }
+
+    private fun showAppListForHomeSlot(location: Int) {
+        showAppList(location, rename = prefs.getAppName(location).isNotEmpty(), includeHiddenApps = true)
     }
 
     private fun showAppList(flag: Int, rename: Boolean = false, includeHiddenApps: Boolean = false) {

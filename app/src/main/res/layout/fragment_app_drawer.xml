@@ -1,110 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="?attr/primaryShadeDarkColor"
-    android:orientation="vertical">
+    android:background="?attr/primaryShadeDarkColor">
 
-    <Space
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="24dp"
-        android:layout_weight="0.06" />
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:fadingEdgeLength="24dp"
+        android:paddingEnd="28dp"
+        android:paddingBottom="@dimen/drawer_bottom_clearance"
+        android:requiresFadingEdge="vertical"
+        tools:ignore="RtlSymmetry" />
 
-    <FrameLayout
+    <app.zlauncher.ui.AlphabetScrubberView
+        android:id="@+id/scrubber"
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:paddingTop="24dp"
+        android:paddingBottom="@dimen/drawer_bottom_clearance" />
+
+    <TextView
+        android:id="@+id/scrubberPreview"
+        style="@style/TextDefault"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:background="@drawable/rounded_rectangle_dark"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:textSize="72sp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Z" />
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true">
+        android:layout_gravity="bottom"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="56dp"
+        android:gravity="end"
+        android:imeOptions="actionSearch"
+        android:paddingHorizontal="7dp"
+        android:paddingVertical="0dp"
+        android:textCursorDrawable="@null"
+        android:visibility="gone"
+        app:closeIcon="@null"
+        app:iconifiedByDefault="false"
+        app:queryBackground="@null"
+        app:queryHint="@string/search_apps_hint"
+        app:searchIcon="@null"
+        app:theme="@style/AppSearchText" />
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="56dp"
-            android:gravity="end"
-            android:imeOptions="actionSearch"
-            android:paddingHorizontal="7dp"
-            android:paddingVertical="0dp"
-            android:textCursorDrawable="@null"
-            android:visibility="gone"
-            app:closeIcon="@null"
-            app:iconifiedByDefault="false"
-            app:queryBackground="@null"
-            app:queryHint="@string/search_apps_hint"
-            app:searchIcon="@null"
-            app:theme="@style/AppSearchText" />
+    <TextView
+        android:id="@+id/appRename"
+        style="@style/TextSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="56dp"
+        android:paddingVertical="@dimen/app_padding_vertical"
+        android:paddingHorizontal="12dp"
+        android:text="@string/rename"
+        android:textAllCaps="true"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/appRename"
-            style="@style/TextSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="56dp"
-            android:paddingVertical="@dimen/app_padding_vertical"
-            android:paddingHorizontal="12dp"
-            android:text="@string/rename"
-            android:textAllCaps="true"
-            android:visibility="gone" />
+    <ImageButton
+        android:id="@+id/searchButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="32dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/cd_search"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_search" />
 
-        <ImageButton
-            android:id="@+id/searchButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="12dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/cd_search"
-            android:padding="10dp"
-            android:src="@drawable/ic_search" />
-
-    </FrameLayout>
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.04" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="24dp"
-        android:layout_weight="1">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:fadingEdgeLength="24dp"
-            android:paddingEnd="28dp"
-            android:requiresFadingEdge="vertical"
-            tools:ignore="RtlSymmetry" />
-
-        <app.zlauncher.ui.AlphabetScrubberView
-            android:id="@+id/scrubber"
-            android:layout_width="24dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:paddingVertical="12dp" />
-
-        <TextView
-            android:id="@+id/scrubberPreview"
-            style="@style/TextDefault"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_rectangle_dark"
-            android:elevation="8dp"
-            android:gravity="center"
-            android:textSize="72sp"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="Z" />
-    </FrameLayout>
-
-</LinearLayout>
+</FrameLayout>

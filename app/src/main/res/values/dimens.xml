@@ -7,4 +7,11 @@
     <dimen name="home_apps_bottom_margin">8dp</dimen>
     <dimen name="home_apps_default_top_padding">112dp</dimen>
     <dimen name="home_apps_default_bottom_padding">120dp</dimen>
+    <dimen name="todo_list_max_height">240dp</dimen>
+    <dimen name="todo_list_margin_top">5dp</dimen>
+    <dimen name="todo_input_margin_top">8dp</dimen>
+    <dimen name="todo_row_padding_vertical">10dp</dimen>
+    <dimen name="todo_row_text_size">14.4sp</dimen>
+    <dimen name="drawer_bottom_clearance">88dp</dimen>
+    <dimen name="drawer_search_open_clearance">140dp</dimen>
 </resources>
