@@ -3,14 +3,11 @@ package app.zlauncher.ui
 import android.app.admin.DevicePolicyManager
 import android.content.Context
 import android.content.pm.LauncherApps
-import android.graphics.Paint
-import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Process
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -231,42 +228,13 @@ class HomeFragment : Fragment(), View.OnClickListener, View.OnLongClickListener 
         binding.homeAppsLayout.setPadding(horizontalPad, topInset, horizontalPad, bottomInset)
 
         val defaultPad = resources.getDimensionPixelSize(R.dimen.home_app_padding_vertical)
-        val baseVerticalPad = when {
+        val verticalPad = when {
             homeAppsNum <= 4 -> defaultPad
             homeAppsNum <= 8 -> (defaultPad * 0.75f).toInt().coerceAtLeast(2)
             else -> (defaultPad * 0.5f).toInt().coerceAtLeast(1)
         }
-
-        val baseTextSizePx = resources.getDimension(R.dimen.text_app_shortcut)
-        val availableHeight = (binding.root.height - topInset - bottomInset).coerceAtLeast(0)
-        val scaleFactor = if (homeAppsNum > 0 && availableHeight > 0) {
-            val paint = Paint().apply {
-                textSize = baseTextSizePx
-                typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
-            }
-            val textHeight = paint.fontMetrics.run { descent - ascent }
-            val rowHeight = textHeight + 2 * baseVerticalPad
-            val totalHeight = rowHeight * homeAppsNum
-            if (totalHeight > availableHeight) {
-                (availableHeight / totalHeight).coerceIn(0.55f, 1f)
-            } else {
-                1f
-            }
-        } else {
-            1f
-        }
-
-        val scaledTextSizePx = baseTextSizePx * scaleFactor
-        val scaledVerticalPad = (baseVerticalPad * scaleFactor).toInt().coerceAtLeast(1)
-
-        homeAppSlots().forEachIndexed { index, slot ->
-            if (index < homeAppsNum) {
-                slot.setTextSize(TypedValue.COMPLEX_UNIT_PX, scaledTextSizePx)
-                slot.setPadding(slot.paddingLeft, scaledVerticalPad, slot.paddingRight, scaledVerticalPad)
-            } else {
-                slot.setTextSize(TypedValue.COMPLEX_UNIT_PX, baseTextSizePx)
-                slot.setPadding(slot.paddingLeft, baseVerticalPad, slot.paddingRight, baseVerticalPad)
-            }
+        homeAppSlots().forEach { slot ->
+            slot.setPadding(slot.paddingLeft, verticalPad, slot.paddingRight, verticalPad)
         }
 
         val verticalGravity = if (prefs.homeBottomAlignment) Gravity.BOTTOM else Gravity.CENTER_VERTICAL
